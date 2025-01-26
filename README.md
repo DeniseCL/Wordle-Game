@@ -19,3 +19,4 @@ In this game there's a fixed size of blanks and we have to guess the word, with 
 
 * Word size 5 ![wordle3](https://user-images.githubusercontent.com/84488726/200635466-4caad1b4-65ae-479b-88d3-498a34d41b54.png)
 
+# Wordle-Game
