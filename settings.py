@@ -1,4 +1,5 @@
 import tkinter as tk
+import sys
 from PIL import Image, ImageTk
 import sqlite3
 from tkinter import messagebox
@@ -7,9 +8,9 @@ from tkinter import messagebox
 class Settings:
     BG = "#171717"
 
-    def __init__(self, functions):
-        self.functions = functions
-        self.root = functions.root
+    def __init__(self, parent):
+        self.parent = parent
+        self.root = parent.root
 
         self.window = tk.Toplevel(self.root)
         self.window.title("Settings")
@@ -18,10 +19,12 @@ class Settings:
 
         self.window.protocol("WM_DELETE_WINDOW", self.close)
 
-        self.root.attributes('-disabled', True)
+        # ✅ Only use '-disabled' on Windows to prevent errors on macOS/Linux
+        if sys.platform == "win32":
+            self.root.attributes('-disabled', True)
 
-        x_co = int(self.functions.width / 2 - (400 / 2)) + self.functions.x_co
-        y_co = self.functions.y_co + int(self.functions.height / 2 - (200 / 2))
+        x_co = int(self.parent.width / 2 - (400 / 2)) + self.parent.x_co
+        y_co = self.parent.y_co + int(self.parent.height / 2 - (200 / 2))
 
         self.window.geometry(f"400x200+{x_co}+{y_co}")
         self.window.config(background=self.BG)
@@ -112,9 +115,9 @@ class Settings:
         connection.commit()
         connection.close()
 
-        self.functions.get_from_db()
-        self.functions.show_buttons()
-        self.functions.reset(keypad=True)
+        self.parent.get_from_db()
+        self.parent.show_buttons()
+        self.parent.reset(keypad=True)
 
 
         self.root.attributes('-disabled', False)
@@ -145,9 +148,10 @@ class Settings:
             self.high_score["text"] = self.high_score_value
 
     def close(self):
+        """Close the settings window"""
+        if sys.platform == "win32":
+            self.root.attributes('-disabled', False)
         self.window.destroy()
-        self.root.focus_force()
-        self.root.attributes('-disabled', False)
 
     def on_hover(self, e):
         widget = e.widget

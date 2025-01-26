@@ -5,8 +5,12 @@ import words_api
 import settings as st
 import os
 import sqlite3
+import sys
+import ctypes
 
-ctypes.windll.shcore.SetProcessDpiAwareness(1)
+# Check if running on Windows before using windll
+if sys.platform == "win32":
+    ctypes.windll.shcore.SetProcessDpiAwareness(1)
 
 
 class Wordle:

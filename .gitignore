@@ -1,4 +1,24 @@
-/.idea
-/__pycache__
-/settings.db
-/venv
+# Virtual environment (keeps it out of Git)
+.venv/
+venv/
+
+# PyCharm project settings (not needed in Git)
+.idea/
+
+# Python cache files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# System files (Mac & Windows)
+.DS_Store
+Thumbs.db
+
+# Log and temp files
+*.log
+*.tmp
+
+# Database files (optional, if you use SQLite or similar)
+*.db
+*.sqlite3
