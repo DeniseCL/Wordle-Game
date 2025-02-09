@@ -159,8 +159,10 @@ class Wordle:
 
         for i in range(6):
             row_btn = []
-            self.button_frames[i].pack(pady=4)
+            self.button_frames[i].pack(
+                pady=4)
             for j in range(self.word_size):
+
                 b = tk.Button(self.button_frames[i], text="", fg="white", bd=2,
                               font="lucida 18", bg=self.BG, width=3, height=1)
                 b.pack(side="left", padx=2)
@@ -172,42 +174,36 @@ class Wordle:
         if e:
             if e.keysym == "BackSpace":
                 self.erase_character()
-
             elif e.keysym == "Return":
                 self.check_for_match()
+            elif e.keysym in "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ":
+                key = e.char.upper()
 
-            elif 65 <= e.keycode <= 90:
-                key = e.char
-                if self.current_b == self.word_size:
-                    self.current_b = self.word_size - 1
+                if self.current_b < self.word_size:
+                    self.buttons[self.current_B_row][self.current_b]["text"] = key
+                    self.buttons[self.current_B_row][self.current_b]['bg'] = "#4CAF50"
+                    self.buttons[self.current_B_row][self.current_b]['fg'] = "#000000"
 
-                    characters = list(self.guess)
-                    characters[self.current_b] = ""
-                    self.guess = "".join(characters)
+                    self.guess += key
+                    self.current_b += 1
 
-                self.buttons[self.current_B_row][self.current_b]["text"] = key.upper()
-                self.buttons[self.current_B_row][self.current_b]['bg'] = "#3d3d3d"
-                self.guess += key.upper()
-                self.current_b += 1
-            else:
-                print(e.keysym)
         else:
+
             key_press = keyboard.widget
             if key_press['text'] == 'Enter':
                 self.check_for_match()
             elif key_press['text'] == '←':
                 self.erase_character()
             else:
-                if self.current_b == self.word_size:
-                    self.current_b = self.word_size - 1
+                key = key_press['text']
 
-                    characters = list(self.guess)
-                    characters[self.current_b] = ""
-                    self.guess = "".join(characters)
+                if self.current_b < self.word_size:
+                    self.buttons[self.current_B_row][self.current_b]["text"] = key
+                    self.buttons[self.current_B_row][self.current_b]['bg'] = "#4CAF50"
+                    self.buttons[self.current_B_row][self.current_b]['fg'] = "#000000"
 
-                self.buttons[self.current_B_row][self.current_b]["text"] = key_press['text']
-                self.guess += key_press['text']
-                self.current_b += 1
+                    self.guess += key
+                    self.current_b += 1
 
     def erase_character(self):
         if self.current_b > 0:
